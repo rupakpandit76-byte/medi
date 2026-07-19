@@ -63,7 +63,7 @@ export default function Appointment() {
                 <div className="mx-auto w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mb-6">
                   <CheckCircle2 className="h-10 w-10 text-primary" />
                 </div>
-                <h3 className="text-2xl font-bold text-gray-900 mb-2">Booking Confirmed!</h3>
+                <h3 className="text-2xl font-bold text-gray-900 mb-2">Appointment Booked Successfully</h3>
                 <p className="text-gray-600 mb-8">Thank you for booking. We will contact you shortly to confirm the details.</p>
                 <Button onClick={() => setIsSuccess(false)}>Book Another</Button>
               </motion.div>

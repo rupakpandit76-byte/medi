@@ -20,7 +20,7 @@ async function startServer() {
   });
 
   // Appointment Booking Endpoint
-  app.post('/api/appointments', (req, res) => {
+  app.post('/api/appointments', async (req, res) => {
     const { name, phone, email, date, time, service, message } = req.body;
     
     // Basic validation
@@ -43,13 +43,33 @@ async function startServer() {
 
     appointments.push(newAppointment);
 
-    // TODO: Future Integration with Google Sheets API here
-    // Example: appendRowToGoogleSheet(newAppointment)
-    // TODO: Future Integration with PostgreSQL here
+    try {
+      const response = await fetch('https://script.google.com/macros/s/AKfycbyalqD4fXrNjEr7op7G6kW07awsQl3ksyDEqJvH1JkqFk14VqA059FF4utQDRSpYlcS/exec', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          name,
+          phone,
+          email: email || '',
+          date,
+          time,
+          service,
+          message: message || ''
+        }),
+      });
+      
+      if (!response.ok) {
+        console.error('Google Apps Script responded with error:', response.statusText);
+      }
+    } catch (error) {
+      console.error('Error forwarding to Google Apps Script:', error);
+    }
 
     res.status(201).json({ 
       success: true, 
-      message: 'Appointment booked successfully',
+      message: 'Appointment Booked Successfully',
       data: newAppointment
     });
   });
